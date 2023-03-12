@@ -1,21 +1,16 @@
-def backtrack(array, lengthOfPremutation, start, permutation):
-    if start == lengthOfPremutation:
-        print(permutation)
+listToPermute = [1,2,3,4,5,6]
+def permute(list, fullList, level, stop):
+    count = 0
+    if level == stop:
+        print(list[0:stop])
         return 1
-    count = 0
-    for i in range(start, len(array)):
-        array[start], array[i] = array[i], array[start]
-        permutation[start] = array[start]
-        count += backtrack(array, lengthOfPremutation, start + 1, permutation)
-        array[start], array[i] = array[i], array[start]
+    fullListCopy = fullList.copy()
+    for i in fullListCopy:
+        list[level] = i
+        fullList.remove(i)
+        count += permute(list, fullList, level+1, stop)
+        fullList = fullListCopy.copy()
     return count
 
-
-def permute(array, lengthOfPremutation):
-    count = 0
-    permutation = [0] * lengthOfPremutation
-    count = backtrack(array, lengthOfPremutation, 0, permutation)
-    return count
-
-count = permute([1,2,3, 4, 5, 6], 4)
+count = permute(listToPermute, listToPermute.copy(), 0, 4)
 print(count)
